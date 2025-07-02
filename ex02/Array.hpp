@@ -29,17 +29,11 @@ class Array
 		}
 		T&	operator[](size_t index)
 		{
-			try
-			{
+			if (index > this->_size || index < 0)
+				throw (std::invalid_argument("Invalid index."));
+			else
 				return this->_data[index];
-			}
-			catch(const std::exception& e)
-			{
-				std::cerr << e.what() << '\n';
-			}
 		}
-
-
 
 		void	setArray(T data, size_t index)
 		{
@@ -64,7 +58,12 @@ class Array
 		}
 		Array(Array& copy)
 		{
-			this = copy;
+			Array tmp;
+			tmp = copy;
+
+			this->_data = new T[copy.size()];
+			this->_size = copy.size();
+			*this = tmp;
 		}
 		Array(unsigned int n)
 		{
